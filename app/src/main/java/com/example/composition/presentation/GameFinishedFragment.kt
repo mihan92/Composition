@@ -28,7 +28,7 @@ class GameFinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindViews()
+        binding.gameResult = args.gameResult
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 retryGame()
@@ -38,24 +38,8 @@ class GameFinishedFragment : Fragment() {
         binding.btFinish.setOnClickListener { retryGame() }
     }
 
-    private fun bindViews(){
-        binding.gameResult = args.gameResult
-//        with(binding){
-//            tvMinAnswers.text = String.format(
-//                getString(R.string.tv_min_right_answers),
-//                gameResult.countRightAnswers
-//
-//            )
-//            tvRightAnswers.text = String.format(
-//                getString(R.string.tv_right_answers),
-//                gameResult.gameSettings.minCountOfRightAnswers
-//            )
-//        }
-    }
-
 
     private fun retryGame() {
         findNavController().popBackStack()
-
     }
 }

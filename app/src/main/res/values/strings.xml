@@ -11,8 +11,8 @@
     <string name="bt_hard_level">Сложный</string>
     <string name="tv_question">\?</string>
     <string name="tv_count_right_answers">Правильных ответов %s (минимум %s)</string>
-    <string name="tv_right_answers">Минимальное количество правильных ответов %s</string>
-    <string name="tv_min_right_answers">Правильных ответов %s</string>
+    <string name="tv_min_right_answers">Минимальное количество правильных ответов %s</string>
+    <string name="tv_right_answers">Правильных ответов %s</string>
     <string name="tv_finish">FINISH!</string>
     <string name="bt_finish">Попробовать снова</string>
 </resources>
