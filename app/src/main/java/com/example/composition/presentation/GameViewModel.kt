@@ -2,9 +2,9 @@ package com.example.composition.presentation
 
 import android.app.Application
 import android.os.CountDownTimer
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.composition.R
 import com.example.composition.data.GameRepositoryImpl
 import com.example.composition.domain.entity.GameResult
@@ -14,12 +14,12 @@ import com.example.composition.domain.entity.Question
 import com.example.composition.domain.usecases.GenerateQuestionUseCase
 import com.example.composition.domain.usecases.GetGameSettingsUseCase
 
-class GameViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val context = application
+class GameViewModel(
+    private val level: Level,
+    private val application: Application
+) : ViewModel() {
 
     private lateinit var gameSettings: GameSettings
-    private lateinit var level: Level
 
     private val repository = GameRepositoryImpl
     private var timer: CountDownTimer? = null
@@ -58,8 +58,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     var countOfRightAnswers = 0
     private var countOfAllAnswers = 0
 
-    fun startGame(level: Level) {
-        getGameSettings(level)
+    init {
+        startGame()
+    }
+
+    private fun startGame() {
+        getGameSettings()
         startTimer()
         generateGameQuestion()
         updateProgress()
@@ -79,7 +83,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val progressInPercent = ((countOfRightAnswers / countOfAllAnswers.toDouble()) * 100).toInt()
         _percentOfRightAnswers.value = progressInPercent
         _progressAnswers.value = String.format(
-            context.resources.getString(R.string.tv_count_right_answers),
+            application.resources.getString(R.string.tv_count_right_answers),
             countOfRightAnswers,
             gameSettings.minCountOfRightAnswers
         )
@@ -89,8 +93,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         _generateQuestion.value = generateQuestionUseCase(gameSettings.maxSumValue)
     }
 
-    private fun getGameSettings(level: Level) {
-        this.level = level
+    private fun getGameSettings() {
         gameSettings = getGameSettingsUseCase(level)
     }
 
